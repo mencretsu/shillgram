@@ -5,32 +5,29 @@ from telethon import TelegramClient
 from datetime import datetime
 from telethon.errors import ChatWriteForbiddenError, ChannelPrivateError, FloodWaitError
 
-api_id = 28190254
-api_hash = 'd0dfad5b32c055ee14106601cb96e06f'
+api_id = your api id
+api_hash = 'ur api hash'
 
 session_folder = 'session'
 session_name = 'autopost'
-group_log_id = -1002587161294  # Grup tujuan log
+group_log_id = -1002587161294  # if u need log
 
-# Baca nomor dari input
-phone_number = input("Masukkan nomor telepon (format internasional, ex: +62xxxx): ").strip()
+# numb input
+phone_number = input("phone numb (ex: +62xxxx): ").strip()
 
-# Baca isi teks dari autopost.txt
 with open('autopost.txt', 'r', encoding='utf-8') as f:
     text_to_post = f.read().strip()
 
-# Baca daftar link grup/channel
 with open('linkpost.txt', 'r', encoding='utf-8') as f:
     link_list = [line.strip() for line in f if line.strip()]
 
-# Pastikan folder session ada
 if not os.path.exists(session_folder):
     os.makedirs(session_folder)
 
 async def main():
     client = TelegramClient(os.path.join(session_folder, session_name), api_id, api_hash)
     await client.start(phone=phone_number)
-    await asyncio.sleep(random.uniform(18, 30))  # Delay aman
+    await asyncio.sleep(random.uniform(18, 30))  # variasi delay aman
 
     log_lines = []
     async with client:
@@ -66,4 +63,3 @@ async def main():
 
 if __name__ == '__main__':
     asyncio.run(main())
-# +6283199369009
