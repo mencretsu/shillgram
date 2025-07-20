@@ -5,13 +5,11 @@ from telethon import TelegramClient
 from datetime import datetime
 from telethon.errors import ChatWriteForbiddenError, ChannelPrivateError, FloodWaitError
 
-api_id = your api id
+api_id = 1234 #your api id
 api_hash = 'ur api hash'
 
 session_folder = 'session'
 session_name = 'autopost'
-group_log_id = -1002587161294  # if u need log
-
 # numb input
 phone_number = input("phone numb (ex: +62xxxx): ").strip()
 
@@ -34,32 +32,20 @@ async def main():
         for i, link in enumerate(link_list, start=1):
             try:
                 await client.send_message(link, text_to_post)
-                log_lines.append(f"[{i}] ✅ Sukses: {link}")
-                print(f"[{i}] ✅ Terkirim : {link}")
+                print(f"[{i}] ✅ Sent : {link}")
             except ChatWriteForbiddenError:
-                log_lines.append(f"[{i}] ❌ Not allowed cih {link}")
-                print(f"[{i}] ❌ Gak punya izin kirim ke {link}")
+                print(f"[{i}] ❌ Not allowed kirim ke {link}")
             except ChannelPrivateError:
-                log_lines.append(f"[{i}] 🚫 Private  {link}")
                 print(f"[{i}] 🚫 Channel private / tidak bisa diakses: {link}")
             except FloodWaitError as e:
-                log_lines.append(f"[{i}] ⏱️ Spam delay {e.seconds}s")
                 print(f"[{i}] ⏱️ Kena spam delay, nunggu {e.seconds}s")
                 await asyncio.sleep(e.seconds)
             except Exception as e:
-                log_lines.append(f"[{i}] ⚠️ Error cih {link}")
                 print(f"[{i}] ⚠️ Error ngirim {link}: {e}")
             await asyncio.sleep(random.uniform(18, 30))  # Delay aman
-
-        now = datetime.now().strftime("%d-%m-%Y %H:%M:%S")
-        log_lines.append(f"\n🟢 done cih ({now})")
-
-        log_text = "\n".join(log_lines)
         await asyncio.sleep(random.uniform(18, 30))  # Delay aman
 
-        await client.send_message(group_log_id, f"[📋 Log]\n\n{log_text}")
-
-    print("\n✅ Semua selesai. Log juga dikirim ke grup.")
+    print("\n✅ All done")
 
 if __name__ == '__main__':
     asyncio.run(main())
